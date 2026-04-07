@@ -226,16 +226,6 @@ const PUZZLES = [
     ],
   },
   {
-    answer: "piano",
-    accept: ["piano", "pianos", "a piano", "keys"],
-    clues: [
-      "Big thing. Person no go — same place.",
-      "Many many same thing in. Same — but no same.",
-      "Person use. Person use other. Person use other. Fast.",
-      "Other person feel — good, no good, more more good.",
-    ],
-  },
-  {
     answer: "ice",
     accept: ["ice", "iceberg", "frozen"],
     clues: [
