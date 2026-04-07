@@ -179,6 +179,8 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: baseline;
+  gap: 1rem;
+  flex-wrap: wrap;
   font-family: var(--font-mono);
   text-transform: uppercase;
   letter-spacing: 0.18em;
@@ -189,9 +191,29 @@ body {
   border-bottom: 2px dotted var(--ink);
 }
 
-.puzzle-counter {
+.meta-stat {
   font-weight: 500;
   color: var(--ink);
+  display: inline-flex;
+  gap: 0.4rem;
+  align-items: baseline;
+}
+
+.meta-stat strong {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-variation-settings: "SOFT" 50;
+  font-weight: 800;
+  font-size: 1.05rem;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+  line-height: 1;
+  position: relative;
+  top: 1px;
+}
+
+.meta-solved.has-solves strong {
+  color: var(--pink);
 }
 
 .puzzle-label {
@@ -336,11 +358,7 @@ body {
   font-weight: 400;
 }
 
-/* ---------- controls ---------- */
-
-.controls {
-  margin: 0.5rem 0 2rem;
-}
+/* ---------- buttons ---------- */
 
 .btn {
   font-family: var(--font-mono);
@@ -379,22 +397,6 @@ body {
   box-shadow: 2px 2px 0 0 var(--pink);
 }
 
-.btn-secondary {
-  background: var(--paper-2);
-  color: var(--ink);
-  box-shadow: 4px 4px 0 0 var(--ink);
-}
-.btn-secondary:hover {
-  transform: translate(-2px, -2px);
-  background: var(--pink);
-  color: var(--paper);
-  box-shadow: 6px 6px 0 0 var(--ink);
-}
-.btn-secondary:active {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 0 var(--ink);
-}
-
 .btn-ghost {
   background: transparent;
   border: 2px dashed var(--ink-soft);
@@ -407,15 +409,6 @@ body {
   color: var(--ink);
   border-color: var(--ink);
 }
-
-.btn-mark {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 900;
-  line-height: 0;
-  color: var(--pink);
-}
-.btn-secondary:hover .btn-mark { color: var(--paper); }
 
 .btn-arrow { display: inline-block; transition: transform 0.2s ease; }
 .btn:hover .btn-arrow { transform: translateX(3px); }
@@ -437,6 +430,13 @@ body {
   color: var(--pink);
   margin-bottom: 0.6rem;
   font-weight: 500;
+}
+
+.guess-hint {
+  color: var(--ink-soft);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  margin-left: 0.3rem;
 }
 
 .guess-row {

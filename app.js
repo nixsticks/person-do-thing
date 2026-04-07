@@ -105,15 +105,179 @@ const PUZZLES = [
       "After many same do, person feel good.",
     ],
   },
+  {
+    answer: "river",
+    accept: ["river", "rivers", "a river", "stream"],
+    clues: [
+      "Thing in place.",
+      "Go. Same go, same go, same go.",
+      "Person see, person no go in fast.",
+      "After, more place. After more, big big place.",
+    ],
+  },
+  {
+    answer: "moon",
+    accept: ["moon", "the moon", "luna"],
+    clues: [
+      "Big thing far up.",
+      "Person see after hot thing go no-up.",
+      "No hot. Real far.",
+      "Big, no big, big, no big — same thing.",
+    ],
+  },
+  {
+    answer: "baby",
+    accept: ["baby", "babies", "a baby", "infant", "newborn"],
+    clues: [
+      "Person, but no big.",
+      "Person no say, no go fast.",
+      "Other person have, other person feel good.",
+      "After many many after, no-big person big.",
+    ],
+  },
+  {
+    answer: "dog",
+    accept: ["dog", "dogs", "a dog", "puppy", "doggo"],
+    clues: [
+      "Thing, but no person.",
+      "Person have. Person feel good.",
+      "Go fast. Like person, but no say.",
+      "Person say 'go!', thing go. Person say 'do!', thing do.",
+    ],
+  },
+  {
+    answer: "car",
+    accept: ["car", "cars", "a car", "automobile", "auto"],
+    clues: [
+      "Thing person use.",
+      "Go fast. More fast, more good.",
+      "Person in, person go far.",
+      "Many person have. Many many.",
+    ],
+  },
+  {
+    answer: "music",
+    accept: ["music", "song", "songs", "a song"],
+    clues: [
+      "Thing person make and use.",
+      "Person feel. More more feel.",
+      "Many person make same thing in same place.",
+      "After, person feel good. Person want again.",
+    ],
+  },
+  {
+    answer: "school",
+    accept: ["school", "schools", "a school", "class", "classroom"],
+    clues: [
+      "Place.",
+      "Many no-big person go in.",
+      "Other person say, no-big person think.",
+      "After many after, no-big person have more think.",
+    ],
+  },
+  {
+    answer: "snow",
+    accept: ["snow", "snowfall", "snowing"],
+    clues: [
+      "Thing in place.",
+      "No hot. More more no hot.",
+      "Many same thing go no-up.",
+      "After, place no same. Person see no thing other.",
+    ],
+  },
+  {
+    answer: "eyes",
+    accept: ["eye", "eyes", "the eyes"],
+    clues: [
+      "Thing in person.",
+      "Person use, person see.",
+      "After, person no use, person no see.",
+      "Same thing, same thing — but in same person.",
+    ],
+  },
+  {
+    answer: "bed",
+    accept: ["bed", "beds", "a bed"],
+    clues: [
+      "Thing in place.",
+      "Big. Person go up in.",
+      "After hot thing go no-up, person want.",
+      "Person no do, no see, no think, but in.",
+    ],
+  },
+  {
+    answer: "dance",
+    accept: ["dance", "dancing", "dances", "a dance"],
+    clues: [
+      "Thing person do.",
+      "Person use, person go — but no go far.",
+      "Many person, same place, same do.",
+      "After, person feel good. More more good.",
+    ],
+  },
+  {
+    answer: "tree",
+    accept: ["tree", "trees", "a tree"],
+    clues: [
+      "Big thing in place.",
+      "Up. More up. Many many same thing up.",
+      "No go. Same place, same place.",
+      "Person see, person feel good. More many, more good.",
+    ],
+  },
+  {
+    answer: "rain",
+    accept: ["rain", "raining", "rainfall"],
+    clues: [
+      "Thing in place.",
+      "Many many same thing go no-up.",
+      "After, place no same — many in.",
+      "Person no want go in. Person want in.",
+    ],
+  },
+  {
+    answer: "piano",
+    accept: ["piano", "pianos", "a piano", "keys"],
+    clues: [
+      "Big thing person use.",
+      "Person make thing — no see, but feel.",
+      "Many same thing in same place — but no same.",
+      "After person use, other person feel good.",
+    ],
+  },
+  {
+    answer: "ice",
+    accept: ["ice", "iceberg", "frozen"],
+    clues: [
+      "Thing in place.",
+      "Hard. But before, no hard.",
+      "No hot. Real no hot.",
+      "After hot, no thing.",
+    ],
+  },
+  {
+    answer: "ghost",
+    accept: ["ghost", "ghosts", "a ghost", "spirit", "phantom"],
+    clues: [
+      "Person, but no real person.",
+      "No real, but person see.",
+      "Person feel no good after see.",
+      "In big place, no other person.",
+    ],
+  },
 ];
 
 // ---------- state ----------
 
 const state = {
-  puzzleIndex: 0,
+  order: [],          // shuffled puzzle indices
+  orderPos: 0,        // pointer into state.order
   cluesShown: 1,
   solved: false,
   revealed: false,
+  played: 0,          // # puzzles started this session (1-indexed once started)
+  solvedCount: 0,     // # puzzles solved correctly this session
+  advanceTimer: null, // pending auto-advance after a win
 };
 
 // ---------- element refs ----------
@@ -122,14 +286,13 @@ const els = {
   mystery:        document.getElementById("mystery"),
   mysteryText:    document.getElementById("mystery-text"),
   clues:          document.getElementById("clues"),
-  nextClueBtn:    document.getElementById("next-clue-btn"),
   guessForm:      document.getElementById("guess-form"),
   guessInput:     document.getElementById("guess-input"),
   feedback:       document.getElementById("feedback"),
   revealBtn:      document.getElementById("reveal-btn"),
   nextPuzzleBtn:  document.getElementById("next-puzzle-btn"),
-  puzzleNum:      document.getElementById("puzzle-num"),
-  puzzleTotal:    document.getElementById("puzzle-total"),
+  playedNum:      document.getElementById("played-num"),
+  solvedNum:      document.getElementById("solved-num"),
 };
 
 // ---------- helpers ----------
@@ -147,6 +310,35 @@ const tokens = (s) =>
     .filter(Boolean);
 
 const pad2 = (n) => String(n).padStart(2, "0");
+
+// fisher-yates shuffle (returns a new array)
+function shuffle(arr) {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// shuffle puzzle indices, ensuring the new shuffle doesn't start
+// with the puzzle we just finished (avoids back-to-back repeats)
+function freshOrder(avoidIndex) {
+  if (PUZZLES.length <= 1) return [0];
+  let next;
+  do {
+    next = shuffle([...PUZZLES.keys()]);
+  } while (next[0] === avoidIndex);
+  return next;
+}
+
+function currentPuzzleIndex() {
+  return state.order[state.orderPos];
+}
+
+function currentPuzzle() {
+  return PUZZLES[currentPuzzleIndex()];
+}
 
 // validate every clue uses only allowed vocab — dev safety net
 function validatePuzzles() {
@@ -180,7 +372,7 @@ function renderPalette() {
 }
 
 function renderClues() {
-  const puzzle = PUZZLES[state.puzzleIndex];
+  const puzzle = currentPuzzle();
   els.clues.innerHTML = "";
 
   for (let i = 0; i < state.cluesShown; i++) {
@@ -200,12 +392,10 @@ function renderClues() {
     li.appendChild(textEl);
     els.clues.appendChild(li);
   }
-
-  els.nextClueBtn.hidden = state.cluesShown >= puzzle.clues.length;
 }
 
 function highlightUsedWords() {
-  const puzzle = PUZZLES[state.puzzleIndex];
+  const puzzle = currentPuzzle();
   const shown = puzzle.clues.slice(0, state.cluesShown).join(" ");
   const used = new Set(tokens(shown));
   document.querySelectorAll(".word").forEach((el) => {
@@ -215,7 +405,7 @@ function highlightUsedWords() {
 
 function renderMystery() {
   if (state.solved || state.revealed) {
-    const word = PUZZLES[state.puzzleIndex].answer;
+    const word = currentPuzzle().answer;
     els.mysteryText.textContent = word;
     els.mysteryText.setAttribute("data-text", word);
     els.mystery.setAttribute("data-state", "revealed");
@@ -227,8 +417,9 @@ function renderMystery() {
 }
 
 function renderMeta() {
-  els.puzzleNum.textContent = pad2(state.puzzleIndex + 1);
-  els.puzzleTotal.textContent = pad2(PUZZLES.length);
+  els.playedNum.textContent = pad2(state.played);
+  els.solvedNum.textContent = pad2(state.solvedCount);
+  els.solvedNum.parentElement.classList.toggle("has-solves", state.solvedCount > 0);
 }
 
 function renderControls() {
@@ -236,9 +427,6 @@ function renderControls() {
   els.revealBtn.hidden = finished;
   els.nextPuzzleBtn.hidden = !finished;
   els.guessInput.disabled = finished;
-  if (finished) {
-    els.nextClueBtn.hidden = true;
-  }
 }
 
 function renderAll() {
@@ -251,31 +439,44 @@ function renderAll() {
 
 // ---------- game flow ----------
 
-function loadPuzzle(i) {
-  state.puzzleIndex = ((i % PUZZLES.length) + PUZZLES.length) % PUZZLES.length;
+const AUTO_ADVANCE_MS = 1400;
+
+function cancelAutoAdvance() {
+  if (state.advanceTimer) {
+    clearTimeout(state.advanceTimer);
+    state.advanceTimer = null;
+  }
+}
+
+function loadCurrentPuzzle() {
   state.cluesShown = 1;
   state.solved = false;
   state.revealed = false;
+  state.played++;
+  cancelAutoAdvance();
   els.guessInput.value = "";
+  els.guessInput.disabled = false;
   els.feedback.textContent = "";
   els.feedback.removeAttribute("data-tone");
   renderAll();
+  els.guessInput.focus({ preventScroll: true });
 }
 
 function showNextClue() {
-  const puzzle = PUZZLES[state.puzzleIndex];
+  const puzzle = currentPuzzle();
   if (state.cluesShown < puzzle.clues.length) {
     state.cluesShown++;
     renderClues();
     highlightUsedWords();
-    els.nextClueBtn.hidden = state.cluesShown >= puzzle.clues.length;
+    return true;
   }
+  return false;
 }
 
 function checkGuess(input) {
   const guess = norm(input);
   if (!guess) return false;
-  const puzzle = PUZZLES[state.puzzleIndex];
+  const puzzle = currentPuzzle();
   return puzzle.accept.some((a) => norm(a) === guess);
 }
 
@@ -284,46 +485,94 @@ const RIGHT_LINES = [
   "got it.",
   "exactly that.",
   "★ correct ★",
+  "right on.",
 ];
 
 const WRONG_LINES = [
-  "no — try another angle.",
-  "not quite. show another clue?",
-  "nope. keep going.",
-  "not it.",
+  "no — here's another clue.",
+  "not quite. one more.",
+  "nope. another.",
+  "not it. take another.",
 ];
+
+const NEUTRAL_LINES = [
+  "another clue, then.",
+  "here, take another.",
+  "one more for you.",
+];
+
+const NO_MORE_CLUES = "out of clues — guess or give up.";
 
 function pick(arr) {
   return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function shakeInput() {
+  els.guessInput.classList.remove("shake");
+  // force reflow so the animation can re-trigger
+  void els.guessInput.offsetWidth;
+  els.guessInput.classList.add("shake");
+}
+
+function setFeedback(text, tone) {
+  els.feedback.textContent = text;
+  if (tone) {
+    els.feedback.setAttribute("data-tone", tone);
+  } else {
+    els.feedback.removeAttribute("data-tone");
+  }
+}
+
+function win() {
+  state.solved = true;
+  state.solvedCount++;
+  setFeedback(pick(RIGHT_LINES), "right");
+  renderMystery();
+  renderControls();
+  renderMeta();
+  // auto-advance after a celebratory beat
+  cancelAutoAdvance();
+  state.advanceTimer = setTimeout(nextPuzzle, AUTO_ADVANCE_MS);
 }
 
 function handleGuess(e) {
   e.preventDefault();
   if (state.solved || state.revealed) return;
 
-  if (checkGuess(els.guessInput.value)) {
-    state.solved = true;
-    els.feedback.textContent = pick(RIGHT_LINES);
-    els.feedback.setAttribute("data-tone", "right");
-    renderMystery();
-    renderControls();
-    els.nextPuzzleBtn.focus({ preventScroll: true });
+  const value = els.guessInput.value.trim();
+
+  // empty submit → just give the next clue (no judgment)
+  if (!value) {
+    if (showNextClue()) {
+      setFeedback(pick(NEUTRAL_LINES), null);
+    } else {
+      setFeedback(NO_MORE_CLUES, "wrong");
+      shakeInput();
+    }
+    return;
+  }
+
+  if (checkGuess(value)) {
+    win();
+    return;
+  }
+
+  // wrong guess → reveal next clue automatically
+  shakeInput();
+  els.guessInput.value = "";
+  if (showNextClue()) {
+    setFeedback(pick(WRONG_LINES), "wrong");
   } else {
-    els.feedback.textContent = pick(WRONG_LINES);
-    els.feedback.setAttribute("data-tone", "wrong");
-    els.guessInput.classList.remove("shake");
-    // force reflow so the animation can re-trigger
-    void els.guessInput.offsetWidth;
-    els.guessInput.classList.add("shake");
+    setFeedback(NO_MORE_CLUES, "wrong");
   }
 }
 
 function reveal() {
+  cancelAutoAdvance();
   state.revealed = true;
   // also reveal all clues so the player sees the full pattern
-  state.cluesShown = PUZZLES[state.puzzleIndex].clues.length;
-  els.feedback.textContent = "here it is.";
-  els.feedback.setAttribute("data-tone", "right");
+  state.cluesShown = currentPuzzle().clues.length;
+  setFeedback("here it is.", "right");
   renderClues();
   highlightUsedWords();
   renderMystery();
@@ -331,8 +580,14 @@ function reveal() {
 }
 
 function nextPuzzle() {
-  loadPuzzle(state.puzzleIndex + 1);
-  els.guessInput.focus({ preventScroll: true });
+  cancelAutoAdvance();
+  state.orderPos++;
+  if (state.orderPos >= state.order.length) {
+    // completed the bag — reshuffle, avoiding back-to-back repeat
+    state.order = freshOrder(currentPuzzleIndex());
+    state.orderPos = 0;
+  }
+  loadCurrentPuzzle();
 }
 
 // ---------- init ----------
@@ -340,16 +595,22 @@ function nextPuzzle() {
 function init() {
   validatePuzzles();
   renderPalette();
-  loadPuzzle(0);
 
-  els.nextClueBtn.addEventListener("click", showNextClue);
+  // seed the shuffle
+  state.order = shuffle([...PUZZLES.keys()]);
+  state.orderPos = 0;
+  state.played = 0;
+  state.solvedCount = 0;
+  loadCurrentPuzzle();
+
   els.guessForm.addEventListener("submit", handleGuess);
   els.revealBtn.addEventListener("click", reveal);
   els.nextPuzzleBtn.addEventListener("click", nextPuzzle);
 
-  // keyboard shortcut: enter on a finished puzzle → next
+  // keyboard shortcut: enter on a finished puzzle → next immediately
+  // (skips the auto-advance celebration window)
   document.addEventListener("keydown", (e) => {
-    if (e.key === "Enter" && (state.solved || state.revealed) && !els.nextPuzzleBtn.hidden) {
+    if (e.key === "Enter" && (state.solved || state.revealed)) {
       e.preventDefault();
       nextPuzzle();
     }

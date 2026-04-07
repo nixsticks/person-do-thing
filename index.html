@@ -29,7 +29,8 @@
   <main class="stage">
     <section class="puzzle">
       <div class="puzzle-meta">
-        <span class="puzzle-counter">№ <span id="puzzle-num">01</span> / <span id="puzzle-total">08</span></span>
+        <span class="meta-stat">played <strong id="played-num">00</strong></span>
+        <span class="meta-stat meta-solved">solved <strong id="solved-num">00</strong></span>
         <span class="puzzle-label">mystery word</span>
       </div>
 
@@ -39,14 +40,10 @@
 
       <ol class="clues" id="clues" aria-live="polite"></ol>
 
-      <div class="controls">
-        <button class="btn btn-secondary" id="next-clue-btn" type="button">
-          <span class="btn-mark">+</span> show me another clue
-        </button>
-      </div>
-
       <form class="guess-form" id="guess-form" autocomplete="off" novalidate>
-        <label class="guess-label" for="guess-input">your guess</label>
+        <label class="guess-label" for="guess-input">
+          your guess <span class="guess-hint">— or hit ↵ for another clue</span>
+        </label>
         <div class="guess-row">
           <input
             class="guess-input"
