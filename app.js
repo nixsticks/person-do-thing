@@ -350,7 +350,11 @@ const state = {
   advanceTimer: null,     // pending auto-advance after a win
   shownMilestones: new Set(), // milestone keys already triggered
   pendingMilestone: null, // milestone queued for the next puzzle load
+  dismissedBuyPopup: false, // user clicked × on a buy cross-sell at least once
+  signedUpForEmail: false,  // user submitted the signup form (this session or prior)
 };
+
+const STORAGE_KEY_SIGNED_UP = "pdt_email_signed_up";
 
 // ---------- sales funnel: cross-sell milestones ----------
 
@@ -358,22 +362,32 @@ const BUY_URL = "https://want.persondothing.com/";
 
 const MILESTONES = {
   "first-clue": {
+    type: "buy",
     eyebrow: "★ first-clue solve ★",
     headline: "you've got the touch.",
     body: "you'd be deadly across a real table. bring it home.",
     cta: "get the deck",
   },
   "solves-3": {
+    type: "buy",
     eyebrow: "★ ★ ★",
     headline: "you're getting it.",
     body: "this is more fun with friends in the room. take the game home.",
     cta: "get the deck",
   },
   "solves-7": {
+    type: "buy",
     eyebrow: "★ seven solved ★",
     headline: "okay, you're hooked.",
     body: "the real deck has hundreds of cards. play it for real.",
     cta: "take it home",
+  },
+  "email-after-dismiss": {
+    type: "email",
+    eyebrow: "★ another way to stay close ★",
+    headline: "i'm working on more.",
+    body: "drop your email and i'll let you know when something new lands. that's it — no spam, just occasional updates from me.",
+    cta: "let me know",
   },
 };
 
@@ -399,6 +413,9 @@ const els = {
   nextPuzzleBtn:  document.getElementById("next-puzzle-btn"),
   playedNum:      document.getElementById("played-num"),
   solvedNum:      document.getElementById("solved-num"),
+  signupForm:     document.getElementById("signup-form"),
+  signupEmail:    document.getElementById("signup-email"),
+  signupFeedback: document.getElementById("signup-feedback"),
 };
 
 // ---------- helpers ----------
@@ -588,30 +605,79 @@ function renderCrossSell(key) {
   if (!m) return;
 
   const card = document.createElement("aside");
-  card.className = "cross-sell";
+  card.className = `cross-sell cross-sell-${m.type}`;
   card.setAttribute("data-milestone", key);
   card.setAttribute("role", "complementary");
 
-  card.innerHTML = `
+  // shared header (eyebrow + headline + body + close button)
+  const header = `
     <button class="cross-sell-close" type="button" aria-label="dismiss">×</button>
     <p class="cross-sell-eyebrow">${m.eyebrow}</p>
     <h2 class="cross-sell-headline">${m.headline}</h2>
     <p class="cross-sell-body">${m.body}</p>
-    <a class="cross-sell-cta"
-       href="${buyUrl(key)}"
-       target="_blank"
-       rel="noopener">
-      ${m.cta} <span class="cross-sell-arrow">→</span>
-    </a>
   `;
+
+  // body diverges by type: buy → CTA link, email → inline signup form
+  let body = "";
+  if (m.type === "buy") {
+    body = `
+      <a class="cross-sell-cta"
+         href="${buyUrl(key)}"
+         target="_blank"
+         rel="noopener">
+        ${m.cta} <span class="cross-sell-arrow">→</span>
+      </a>
+    `;
+  } else if (m.type === "email") {
+    body = `
+      <form class="cross-sell-signup" novalidate>
+        <input
+          class="cross-sell-signup-input"
+          type="email"
+          name="email"
+          placeholder="your email"
+          required
+          spellcheck="false"
+          autocomplete="email">
+        <button class="cross-sell-signup-btn" type="submit">
+          ${m.cta} <span class="cross-sell-arrow">→</span>
+        </button>
+      </form>
+      <p class="cross-sell-signup-feedback" aria-live="polite"></p>
+    `;
+  }
+
+  card.innerHTML = header + body;
 
   // insert above the mystery slot, after the puzzle meta
   els.mystery.parentNode.insertBefore(card, els.mystery);
 
+  // dismiss handler — track buy-popup dismissals so the next milestone
+  // can switch to an email ask instead of another buy ask
   card.querySelector(".cross-sell-close").addEventListener("click", () => {
+    if (m.type === "buy") {
+      state.dismissedBuyPopup = true;
+    }
     card.classList.add("dismissed");
     setTimeout(() => card.remove(), 280);
   });
+
+  // wire the embedded signup form on email popups
+  if (m.type === "email") {
+    const form = card.querySelector(".cross-sell-signup");
+    const input = card.querySelector(".cross-sell-signup-input");
+    const feedback = card.querySelector(".cross-sell-signup-feedback");
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      processSignup(form, input, feedback, {
+        autoDismissAfter: 1900,
+        onAutoDismiss: () => {
+          card.classList.add("dismissed");
+          setTimeout(() => card.remove(), 280);
+        },
+      });
+    });
+  }
 }
 
 function showNextClue() {
@@ -691,7 +757,17 @@ function win() {
   };
   if (wonOnFirstClue) queue("first-clue");
   if (state.solvedCount === 3) queue("solves-3");
-  if (state.solvedCount === 7) queue("solves-7");
+  if (state.solvedCount === 7) {
+    // smart fallback: if the player dismissed an earlier buy popup AND
+    // hasn't signed up yet, ask for an email instead of pushing buy again.
+    // if they dismissed AND already signed up, show nothing — they've told
+    // us twice they're not in the mood.
+    if (state.dismissedBuyPopup) {
+      if (!state.signedUpForEmail) queue("email-after-dismiss");
+    } else {
+      queue("solves-7");
+    }
+  }
 
   setFeedback(pick(RIGHT_LINES), "right");
   renderMystery();
@@ -757,6 +833,125 @@ function nextPuzzle() {
   loadCurrentPuzzle();
 }
 
+// ---------- email signup (wired to Loops) ----------
+//
+// Submissions POST directly to a Loops newsletter-form endpoint. The
+// shared `processSignup` function handles validation, the loading state,
+// success/error UI, localStorage dedup, and (for the popup variant) an
+// auto-dismiss after the success state has had a moment to land.
+//
+// To swap providers in the future:
+//   - Change LOOPS_FORM_URL to the new endpoint
+//   - Adjust the body shape below if the new provider expects a different
+//     field name (Loops uses `email` + optional `userGroup`)
+//
+// `userGroup` tags submissions in the Loops dashboard so the friend can see
+// which signups came from this site vs other surfaces.
+
+const LOOPS_FORM_URL = "https://app.loops.so/api/newsletter-form/cm6s5x8ld00nb78jzoupdwoux";
+const SIGNUP_USER_GROUP = "play_site";
+
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// shared signup processor — used by both the deck-section form and the popup form.
+// `options.autoDismissAfter` (ms) + `options.onAutoDismiss` callback let the popup
+// auto-close after the success state has been visible for a beat.
+async function processSignup(formEl, inputEl, feedbackEl, options = {}) {
+  const email = inputEl.value.trim();
+
+  if (!EMAIL_RE.test(email)) {
+    feedbackEl.textContent = "that doesn't look like an email — try again?";
+    feedbackEl.setAttribute("data-tone", "wrong");
+    inputEl.focus();
+    return;
+  }
+
+  const submitBtn = formEl.querySelector('button[type="submit"]');
+
+  // loading state
+  feedbackEl.textContent = "sending…";
+  feedbackEl.removeAttribute("data-tone");
+  if (submitBtn) submitBtn.disabled = true;
+  inputEl.disabled = true;
+
+  try {
+    const res = await fetch(LOOPS_FORM_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: new URLSearchParams({
+        email,
+        userGroup: SIGNUP_USER_GROUP,
+      }),
+    });
+
+    // loops returns json with { success: true } on success and a body
+    // with { success: false, message } on validation errors
+    let data = null;
+    try { data = await res.json(); } catch (_) { /* non-json response */ }
+
+    if (!res.ok || (data && data.success === false)) {
+      const msg = (data && data.message) || `signup failed (${res.status})`;
+      throw new Error(msg);
+    }
+
+    // success — persist and update the deck-section form, even if this
+    // popup was dismissed mid-fetch (the signup is real either way)
+    markSignedUp(email);
+
+    if (formEl.isConnected) {
+      feedbackEl.textContent = "got it — you're on the list.";
+      feedbackEl.setAttribute("data-tone", "right");
+      formEl.classList.add("submitted");
+
+      if (options.autoDismissAfter && typeof options.onAutoDismiss === "function") {
+        setTimeout(options.onAutoDismiss, options.autoDismissAfter);
+      }
+    }
+  } catch (err) {
+    console.error("[signup] failed:", err);
+    if (formEl.isConnected) {
+      feedbackEl.textContent = "something broke. try again in a moment?";
+      feedbackEl.setAttribute("data-tone", "wrong");
+      // re-enable so the user can retry
+      if (submitBtn) submitBtn.disabled = false;
+      inputEl.disabled = false;
+      inputEl.focus();
+    }
+  }
+}
+
+// called from any successful signup. persists, flips state, and replaces the
+// deck-section form with a thanks state so the player isn't asked again.
+function markSignedUp(email) {
+  state.signedUpForEmail = true;
+  try {
+    localStorage.setItem(STORAGE_KEY_SIGNED_UP, "1");
+  } catch (e) {
+    // localStorage may be blocked (private mode, etc) — non-fatal
+  }
+  showDeckThanksState();
+}
+
+// replace the deck-section signup card contents with a static thank-you state.
+// safe to call multiple times — it just rewrites the inner html.
+function showDeckThanksState() {
+  const container = document.querySelector(".deck-signup");
+  if (!container) return;
+  container.innerHTML = `
+    <p class="deck-eyebrow deck-eyebrow-alt">★ subscribed ★</p>
+    <h3 class="deck-signup-headline">you're on the list.</h3>
+    <p class="deck-signup-body">
+      thanks for signing up — i'll be in touch when there's something new to share.
+    </p>
+  `;
+}
+
+// thin wrapper for the deck-section form's submit event
+function handleSignup(e) {
+  e.preventDefault();
+  processSignup(els.signupForm, els.signupEmail, els.signupFeedback);
+}
+
 // ---------- init ----------
 
 function init() {
@@ -770,9 +965,21 @@ function init() {
   state.solvedCount = 0;
   loadCurrentPuzzle();
 
+  // returning visitor: if they signed up before, immediately swap the deck
+  // section to its thanks state and skip any future email popups
+  try {
+    if (localStorage.getItem(STORAGE_KEY_SIGNED_UP) === "1") {
+      state.signedUpForEmail = true;
+      showDeckThanksState();
+    }
+  } catch (e) {
+    // localStorage blocked — proceed without persistence
+  }
+
   els.guessForm.addEventListener("submit", handleGuess);
   els.revealBtn.addEventListener("click", reveal);
   els.nextPuzzleBtn.addEventListener("click", nextPuzzle);
+  els.signupForm.addEventListener("submit", handleSignup);
 
   // keyboard shortcut: enter on a finished puzzle → next immediately
   // (skips the auto-advance celebration window)

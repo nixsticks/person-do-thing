@@ -104,6 +104,58 @@
     </aside>
   </main>
 
+  <!--
+    DECK SECTION — the "exit moment" sales surface.
+    Two-column block: first-person pitch on the left, email signup on the right.
+    The signup form is currently visual-only (no real backend).
+    To wire it up to a real provider, see the TODO in app.js next to handleSignup.
+  -->
+  <section class="deck" id="deck">
+    <div class="deck-grid">
+
+      <div class="deck-pitch">
+        <p class="deck-eyebrow">★ get the real thing ★</p>
+        <h2 class="deck-headline">play it at a real table.</h2>
+        <p class="deck-body">
+          i made person do thing because i wanted my friends to put their phones down for an hour. it works best in a room with people you can riff off — the funniest clues come from watching someone struggle and then jumping in.
+        </p>
+        <p class="deck-body">
+          if this little site got you, the deck is the real game.
+        </p>
+        <a class="deck-cta"
+           href="https://want.persondothing.com/?utm_source=play_site&utm_medium=deck_section"
+           target="_blank"
+           rel="noopener">
+          get the deck <span class="deck-cta-arrow">→</span>
+        </a>
+      </div>
+
+      <div class="deck-signup">
+        <p class="deck-eyebrow deck-eyebrow-alt">or, not ready yet?</p>
+        <h3 class="deck-signup-headline">i'm working on more.</h3>
+        <p class="deck-signup-body">
+          drop your email and you'll be the first to know when something new lands.
+        </p>
+        <form class="signup-form" id="signup-form" novalidate>
+          <input
+            class="signup-input"
+            id="signup-email"
+            type="email"
+            name="email"
+            placeholder="your email"
+            required
+            spellcheck="false"
+            autocomplete="email">
+          <button class="signup-btn" type="submit">
+            let me know <span class="signup-btn-arrow">→</span>
+          </button>
+        </form>
+        <p class="signup-feedback" id="signup-feedback" aria-live="polite"></p>
+      </div>
+
+    </div>
+  </section>
+
   <footer class="footer">
     <p>
       a tutorial for <a href="https://persondothing.com">person do thing</a> —

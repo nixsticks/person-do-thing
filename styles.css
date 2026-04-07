@@ -166,16 +166,16 @@ body {
 }
 .rules-link:hover .rules-link-arrow { transform: translateX(3px); }
 
-/* always-on buy-the-deck pin in the masthead */
+/* always-on buy-the-deck pin in the masthead — bigger, louder version */
 .buy-pin {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.25rem;
-  padding: 0.6rem 0.95rem 0.7rem;
+  gap: 0.4rem;
+  padding: 1.05rem 1.5rem 1.2rem;
   background: var(--pink);
-  border: 2px solid var(--ink);
-  box-shadow: 4px 4px 0 0 var(--ink);
+  border: 2.5px solid var(--ink);
+  box-shadow: 6px 6px 0 0 var(--ink);
   text-decoration: none;
   color: var(--paper);
   transform: rotate(-2.4deg);
@@ -184,53 +184,61 @@ body {
     box-shadow 0.18s ease;
   animation: fade-in 1s 0.75s both;
   position: relative;
+  max-width: 16rem;
 }
 
+/* tape-corner dots */
 .buy-pin::before,
 .buy-pin::after {
   content: "";
   position: absolute;
-  width: 10px;
-  height: 10px;
+  width: 12px;
+  height: 12px;
   background: var(--paper);
   border: 1.5px solid var(--ink);
   border-radius: 50%;
 }
-.buy-pin::before { top: -5px; left: 8px; }
-.buy-pin::after  { top: -5px; right: 8px; }
+.buy-pin::before { top: -6px; left: 10px; }
+.buy-pin::after  { top: -6px; right: 10px; }
 
 .buy-pin:hover {
-  transform: rotate(-1deg) translate(-2px, -2px);
-  box-shadow: 6px 6px 0 0 var(--ink);
+  transform: rotate(-1deg) translate(-3px, -3px);
+  box-shadow: 9px 9px 0 0 var(--ink);
 }
 .buy-pin:active {
   transform: rotate(-2.4deg) translate(2px, 2px);
-  box-shadow: 2px 2px 0 0 var(--ink);
+  box-shadow: 3px 3px 0 0 var(--ink);
 }
 
 .buy-pin-eyebrow {
   font-family: var(--font-mono);
-  font-size: 0.6rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
-  letter-spacing: 0.18em;
-  opacity: 0.85;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  opacity: 0.92;
 }
 
 .buy-pin-cta {
   font-family: var(--font-display);
   font-style: italic;
-  font-weight: 800;
-  font-variation-settings: "SOFT" 60;
-  font-size: 1.05rem;
-  letter-spacing: -0.01em;
-  line-height: 1;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 60, "opsz" 144;
+  font-size: 1.85rem;
+  letter-spacing: -0.025em;
+  line-height: 0.95;
   display: inline-flex;
-  align-items: center;
-  gap: 0.35rem;
+  align-items: baseline;
+  gap: 0.4rem;
+  text-transform: lowercase;
 }
 
-.buy-pin-arrow { display: inline-block; transition: transform 0.2s ease; }
-.buy-pin:hover .buy-pin-arrow { transform: translateX(3px); }
+.buy-pin-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  font-size: 0.85em;
+}
+.buy-pin:hover .buy-pin-arrow { transform: translateX(4px); }
 
 @media (max-width: 640px) {
   .masthead {
@@ -465,6 +473,113 @@ body {
   transition: transform 0.2s ease;
 }
 .cross-sell-cta:hover .cross-sell-arrow { transform: translateX(3px); }
+
+/* ---------- email-type cross-sell: embedded signup form ---------- */
+
+.cross-sell-signup {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.cross-sell-signup-input {
+  flex: 1 1 14rem;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  background: var(--paper-2);
+  border: 2px solid var(--ink);
+  padding: 0.7rem 0.85rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.cross-sell-signup-input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.55;
+  font-style: italic;
+}
+
+.cross-sell-signup-input:focus {
+  border-color: var(--pink);
+  box-shadow: 3px 3px 0 0 var(--pink);
+}
+
+.cross-sell-signup-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  background: var(--paper);
+}
+
+.cross-sell-signup-btn {
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  padding: 0.7rem 1.2rem;
+  background: var(--ink);
+  color: var(--paper);
+  border: 2.5px solid var(--ink);
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 var(--pink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  white-space: nowrap;
+}
+
+.cross-sell-signup-btn:hover {
+  transform: translate(-2px, -2px);
+  background: var(--pink);
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+.cross-sell-signup-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 var(--ink);
+}
+
+.cross-sell-signup.submitted .cross-sell-signup-btn {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.cross-sell-signup-feedback {
+  min-height: 1.2rem;
+  margin: 0.7rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.cross-sell-signup-feedback[data-tone="wrong"] {
+  color: var(--pink);
+  font-weight: 500;
+}
+.cross-sell-signup-feedback[data-tone="right"] {
+  color: var(--ink);
+  font-weight: 500;
+}
+.cross-sell-signup-feedback[data-tone="right"]::before {
+  content: "★ ";
+  color: var(--pink);
+}
+
+/* the email card uses a slightly different rotation so it doesn't look identical
+   to the buy card right after dismissal */
+.cross-sell.cross-sell-email {
+  transform: rotate(0.8deg);
+}
+@keyframes cross-sell-stamp-email {
+  0%   { opacity: 0; transform: translateY(-12px) rotate(4deg) scale(1.04); }
+  60%  { opacity: 1; transform: translateY(2px) rotate(0.3deg) scale(0.99); }
+  100% { opacity: 1; transform: translateY(0) rotate(0.8deg) scale(1); }
+}
+.cross-sell.cross-sell-email {
+  animation-name: cross-sell-stamp-email;
+}
 
 /* ---------- mystery slot ---------- */
 
@@ -885,6 +1000,271 @@ body {
   line-height: 1.4;
   color: var(--ink-soft);
   text-transform: lowercase;
+}
+
+/* ---------- deck section (exit-moment sales surface) ---------- */
+
+.deck {
+  position: relative;
+  z-index: 2;
+  margin: 0 clamp(1.5rem, 5vw, 4rem);
+  padding: clamp(2.4rem, 5vw, 4rem) 0 clamp(2.4rem, 5vw, 4rem);
+  border-top: 3px double var(--ink);
+  border-bottom: 3px double var(--ink);
+  background-image:
+    radial-gradient(circle at center, rgba(255, 46, 126, 0.18) 0.9px, transparent 1.4px);
+  background-size: 13px 13px;
+  background-position: 0 0;
+}
+
+.deck-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
+  gap: clamp(2rem, 5vw, 4rem);
+  align-items: start;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 0 clamp(0.5rem, 2vw, 2rem);
+}
+
+@media (max-width: 880px) {
+  .deck-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* shared eyebrow */
+.deck-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--pink);
+  font-weight: 500;
+  margin: 0 0 0.8rem;
+}
+.deck-eyebrow-alt {
+  color: var(--ink-soft);
+}
+
+/* ---------- left column: pitch ---------- */
+
+.deck-pitch {
+  position: relative;
+}
+
+.deck-headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 40, "opsz" 144;
+  font-size: clamp(2.2rem, 5.4vw, 4rem);
+  line-height: 0.92;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+  margin: 0 0 1.4rem;
+  text-transform: lowercase;
+  position: relative;
+  display: inline-block;
+}
+
+.deck-headline::before {
+  content: "";
+  position: absolute;
+  left: -6px;
+  right: -6px;
+  bottom: 0.08em;
+  height: 0.32em;
+  background: var(--pink);
+  z-index: -1;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  transform: rotate(-0.6deg);
+}
+
+.deck-body {
+  font-family: var(--font-mono);
+  font-size: clamp(0.95rem, 1.4vw, 1.05rem);
+  line-height: 1.62;
+  color: var(--ink);
+  margin: 0 0 1rem;
+  max-width: 36rem;
+}
+
+.deck-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  margin-top: 0.7rem;
+  padding: 1.1rem 1.8rem 1.2rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 50, "opsz" 144;
+  font-size: clamp(1.3rem, 2.4vw, 1.7rem);
+  text-transform: lowercase;
+  letter-spacing: -0.015em;
+  background: var(--ink);
+  color: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 0 var(--pink);
+  text-decoration: none;
+  line-height: 1;
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.deck-cta:hover {
+  transform: translate(-3px, -3px);
+  background: var(--pink);
+  color: var(--paper);
+  box-shadow: 9px 9px 0 0 var(--ink);
+}
+.deck-cta:active {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 0 var(--pink);
+}
+
+.deck-cta-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+  font-size: 0.85em;
+}
+.deck-cta:hover .deck-cta-arrow { transform: translateX(4px); }
+
+/* ---------- right column: email signup ---------- */
+
+.deck-signup {
+  position: relative;
+  padding: 1.6rem 1.6rem 1.7rem;
+  background: var(--paper-2);
+  border: 2.5px solid var(--ink);
+  box-shadow: 6px 6px 0 0 var(--ink);
+  transform: rotate(0.7deg);
+}
+
+.deck-signup::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1.5px dashed var(--ink);
+  pointer-events: none;
+  opacity: 0.3;
+}
+
+.deck-signup-headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 50, "opsz" 144;
+  font-size: clamp(1.5rem, 2.6vw, 1.95rem);
+  line-height: 0.98;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  margin: 0 0 0.8rem;
+  text-transform: lowercase;
+}
+
+.deck-signup-body {
+  font-family: var(--font-mono);
+  font-size: 0.9rem;
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0 0 1.2rem;
+}
+
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.signup-input {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  padding: 0.75rem 0.9rem;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease;
+}
+
+.signup-input::placeholder {
+  color: var(--ink-soft);
+  opacity: 0.55;
+  font-style: italic;
+}
+
+.signup-input:focus {
+  border-color: var(--pink);
+  box-shadow: 3px 3px 0 0 var(--pink);
+}
+
+.signup-input:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.signup-btn {
+  font-family: var(--font-mono);
+  font-size: 0.95rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  padding: 0.85rem 1.3rem;
+  background: var(--ink);
+  color: var(--paper);
+  border: 2.5px solid var(--ink);
+  cursor: pointer;
+  box-shadow: 4px 4px 0 0 var(--pink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+}
+.signup-btn:hover {
+  transform: translate(-2px, -2px);
+  background: var(--pink);
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+.signup-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 0 var(--ink);
+}
+.signup-btn:focus-visible {
+  outline: 3px dashed var(--pink);
+  outline-offset: 4px;
+}
+
+.signup-btn-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.signup-btn:hover .signup-btn-arrow { transform: translateX(3px); }
+
+.signup-feedback {
+  min-height: 1.3rem;
+  margin: 0.8rem 0 0;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+}
+.signup-feedback[data-tone="wrong"] {
+  color: var(--pink);
+  font-weight: 500;
+}
+.signup-feedback[data-tone="right"] {
+  color: var(--ink);
+  font-weight: 500;
+}
+.signup-feedback[data-tone="right"]::before {
+  content: "★ ";
+  color: var(--pink);
+}
+
+.signup-form.submitted .signup-btn {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 /* ---------- footer ---------- */
