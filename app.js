@@ -270,15 +270,51 @@ const PUZZLES = [
 // ---------- state ----------
 
 const state = {
-  order: [],          // shuffled puzzle indices
-  orderPos: 0,        // pointer into state.order
+  order: [],              // shuffled puzzle indices
+  orderPos: 0,            // pointer into state.order
   cluesShown: 1,
   solved: false,
   revealed: false,
-  played: 0,          // # puzzles started this session (1-indexed once started)
-  solvedCount: 0,     // # puzzles solved correctly this session
-  advanceTimer: null, // pending auto-advance after a win
+  played: 0,              // # puzzles started this session
+  solvedCount: 0,         // # puzzles solved correctly this session
+  advanceTimer: null,     // pending auto-advance after a win
+  shownMilestones: new Set(), // milestone keys already triggered
+  pendingMilestone: null, // milestone queued for the next puzzle load
 };
+
+// ---------- sales funnel: cross-sell milestones ----------
+
+const BUY_URL = "https://want.persondothing.com/";
+
+const MILESTONES = {
+  "first-clue": {
+    eyebrow: "★ first-clue solve ★",
+    headline: "you've got the touch.",
+    body: "you'd be deadly across a real table. bring it home.",
+    cta: "get the deck",
+  },
+  "solves-3": {
+    eyebrow: "★ ★ ★",
+    headline: "you're getting it.",
+    body: "this is more fun with friends in the room. take the game home.",
+    cta: "get the deck",
+  },
+  "solves-7": {
+    eyebrow: "★ seven solved ★",
+    headline: "okay, you're hooked.",
+    body: "the real deck has hundreds of cards. play it for real.",
+    cta: "take it home",
+  },
+};
+
+function buyUrl(campaign) {
+  const params = new URLSearchParams({
+    utm_source: "play_site",
+    utm_medium: campaign ? "milestone" : "masthead",
+  });
+  if (campaign) params.set("utm_campaign", campaign);
+  return `${BUY_URL}?${params.toString()}`;
+}
 
 // ---------- element refs ----------
 
@@ -458,8 +494,54 @@ function loadCurrentPuzzle() {
   els.guessInput.disabled = false;
   els.feedback.textContent = "";
   els.feedback.removeAttribute("data-tone");
+  // render any queued milestone cross-sell card before the puzzle
+  if (state.pendingMilestone) {
+    renderCrossSell(state.pendingMilestone);
+    state.pendingMilestone = null;
+  } else {
+    clearCrossSell();
+  }
   renderAll();
   els.guessInput.focus({ preventScroll: true });
+}
+
+// ---------- cross-sell rendering ----------
+
+function clearCrossSell() {
+  const existing = document.querySelector(".cross-sell");
+  if (existing) existing.remove();
+}
+
+function renderCrossSell(key) {
+  clearCrossSell();
+  const m = MILESTONES[key];
+  if (!m) return;
+
+  const card = document.createElement("aside");
+  card.className = "cross-sell";
+  card.setAttribute("data-milestone", key);
+  card.setAttribute("role", "complementary");
+
+  card.innerHTML = `
+    <button class="cross-sell-close" type="button" aria-label="dismiss">×</button>
+    <p class="cross-sell-eyebrow">${m.eyebrow}</p>
+    <h2 class="cross-sell-headline">${m.headline}</h2>
+    <p class="cross-sell-body">${m.body}</p>
+    <a class="cross-sell-cta"
+       href="${buyUrl(key)}"
+       target="_blank"
+       rel="noopener">
+      ${m.cta} <span class="cross-sell-arrow">→</span>
+    </a>
+  `;
+
+  // insert above the mystery slot, after the puzzle meta
+  els.mystery.parentNode.insertBefore(card, els.mystery);
+
+  card.querySelector(".cross-sell-close").addEventListener("click", () => {
+    card.classList.add("dismissed");
+    setTimeout(() => card.remove(), 280);
+  });
 }
 
 function showNextClue() {
@@ -524,8 +606,23 @@ function setFeedback(text, tone) {
 }
 
 function win() {
+  const wonOnFirstClue = state.cluesShown === 1;
   state.solved = true;
   state.solvedCount++;
+
+  // queue at most one milestone for the next puzzle load.
+  // first-clue takes priority over count-based milestones —
+  // it's the rarer / more impressive event.
+  const queue = (key) => {
+    if (!state.shownMilestones.has(key) && !state.pendingMilestone) {
+      state.shownMilestones.add(key);
+      state.pendingMilestone = key;
+    }
+  };
+  if (wonOnFirstClue) queue("first-clue");
+  if (state.solvedCount === 3) queue("solves-3");
+  if (state.solvedCount === 7) queue("solves-7");
+
   setFeedback(pick(RIGHT_LINES), "right");
   renderMystery();
   renderControls();
