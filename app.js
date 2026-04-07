@@ -60,9 +60,9 @@ const PUZZLES = [
     accept: ["library", "libraries", "a library", "the library"],
     clues: [
       "Big place.",
-      "In: many many thing. Person use, person think.",
-      "Person no say. Other person no say. No say.",
-      "Person go in, see thing, think, go.",
+      "Many many thing in. Same — but no same.",
+      "Person no say. Other person no say. Same do.",
+      "After, person have thing — but after more, no have. Other person have.",
     ],
   },
   {
@@ -99,10 +99,10 @@ const PUZZLES = [
     answer: "friend",
     accept: ["friend", "friends", "a friend", "buddy", "pal"],
     clues: [
-      "Person.",
-      "Other person — but person like.",
-      "Person say thing, other person say 'yes, yes'.",
-      "After many same do, person feel good.",
+      "Other person.",
+      "But person want, person have. No other person make same.",
+      "Person say, other person say. Person say, other person say.",
+      "Other person make person feel good. Person make other person feel good.",
     ],
   },
   {
@@ -149,10 +149,10 @@ const PUZZLES = [
     answer: "car",
     accept: ["car", "cars", "a car", "automobile", "auto"],
     clues: [
-      "Thing person use.",
-      "Go fast. More fast, more good.",
-      "Person in, person go far.",
-      "Many person have. Many many.",
+      "Big thing. Person have.",
+      "Person in. Person make thing go — fast, far.",
+      "Person go same place again, again, again. But person go other place after.",
+      "In big place: many same thing, no go. Many person no in.",
     ],
   },
   {
@@ -196,16 +196,6 @@ const PUZZLES = [
     ],
   },
   {
-    answer: "bed",
-    accept: ["bed", "beds", "a bed"],
-    clues: [
-      "Thing in place.",
-      "Big. Person go up in.",
-      "After hot thing go no-up, person want.",
-      "Person no do, no see, no think, but in.",
-    ],
-  },
-  {
     answer: "dance",
     accept: ["dance", "dancing", "dances", "a dance"],
     clues: [
@@ -229,20 +219,20 @@ const PUZZLES = [
     answer: "rain",
     accept: ["rain", "raining", "rainfall"],
     clues: [
-      "Thing in place.",
-      "Many many same thing go no-up.",
-      "After, place no same — many in.",
-      "Person no want go in. Person want in.",
+      "Many same thing go no-up — fast.",
+      "Person feel — and person no want feel.",
+      "Person have other thing — make up. No feel.",
+      "After, place no same. Many in place. Hard go.",
     ],
   },
   {
     answer: "piano",
     accept: ["piano", "pianos", "a piano", "keys"],
     clues: [
-      "Big thing person use.",
-      "Person make thing — no see, but feel.",
-      "Many same thing in same place — but no same.",
-      "After person use, other person feel good.",
+      "Big thing. Person no go — same place.",
+      "Many many same thing in. Same — but no same.",
+      "Person use. Person use other. Person use other. Fast.",
+      "Other person feel — good, no good, more more good.",
     ],
   },
   {
@@ -263,6 +253,86 @@ const PUZZLES = [
       "No real, but person see.",
       "Person feel no good after see.",
       "In big place, no other person.",
+    ],
+  },
+  {
+    answer: "wind",
+    accept: ["wind", "winds", "the wind", "breeze"],
+    clues: [
+      "Thing in place.",
+      "Person no see, but person feel.",
+      "Make other thing go. Same go, same go.",
+      "Fast, no fast, fast, no fast. Big, no big.",
+    ],
+  },
+  {
+    answer: "shadow",
+    accept: ["shadow", "shadows", "a shadow", "shade"],
+    clues: [
+      "Thing person have.",
+      "Same thing same person — but no real.",
+      "Go same place person go. Do same do.",
+      "No hot thing up: no thing.",
+    ],
+  },
+  {
+    answer: "heart",
+    accept: ["heart", "hearts", "the heart", "heartbeat"],
+    clues: [
+      "Thing in person.",
+      "Person no see, but person feel — same feel, again, again, again.",
+      "Go fast after person feel hot, fast after person feel no good.",
+      "After thing no go, no person.",
+    ],
+  },
+  {
+    answer: "bird",
+    accept: ["bird", "birds", "a bird"],
+    clues: [
+      "Thing, but no person.",
+      "No big — but go far up. Far far up.",
+      "Many same thing in big up place. Same go, same after.",
+      "Make thing — and other person feel good.",
+    ],
+  },
+  {
+    answer: "secret",
+    accept: ["secret", "secrets", "a secret"],
+    clues: [
+      "Thing person have in.",
+      "Person no say. Person want say, but no.",
+      "Other person want, but no have.",
+      "After person say, no thing.",
+    ],
+  },
+  {
+    answer: "echo",
+    accept: ["echo", "echoes", "an echo"],
+    clues: [
+      "Thing.",
+      "Person say, after person say same.",
+      "No other person, but say.",
+      "Same say, but no big. After, more no big.",
+    ],
+  },
+  {
+    answer: "night",
+    accept: ["night", "nights", "nighttime", "the night"],
+    clues: [
+      "Place, but no place — same place after.",
+      "After hot thing far up go no-up.",
+      "No see far. No hot.",
+      "Many person no do, no see, no think — same do.",
+    ],
+  },
+  {
+    answer: "door",
+    accept: ["door", "doors", "a door", "the door"],
+    clues: [
+      "Thing in place.",
+      "Before, person go in. After, no go in.",
+      "Person say 'go in!' Person say 'no go in!'",
+      "Other person no see in — but after, see.",
     ],
   },
 ];
