@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Person Do Thing — play it</title>
+  <meta name="description" content="An interactive tutorial for Person Do Thing. Guess the hidden word from clues built using only 34 simple words.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="halftone-bg" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <div class="title-stack">
+      <h1 class="title" data-text="Person Do Thing">Person Do Thing</h1>
+      <p class="subtitle">— play it. guess the word.</p>
+    </div>
+    <div class="colophon">
+      <span>riso ed. 01</span>
+      <span>·</span>
+      <span>2026</span>
+    </div>
+  </header>
+
+  <main class="stage">
+    <section class="puzzle">
+      <div class="puzzle-meta">
+        <span class="puzzle-counter">№ <span id="puzzle-num">01</span> / <span id="puzzle-total">08</span></span>
+        <span class="puzzle-label">mystery word</span>
+      </div>
+
+      <div class="mystery" id="mystery" data-state="hidden">
+        <span class="mystery-text" id="mystery-text" data-text="?">?</span>
+      </div>
+
+      <ol class="clues" id="clues" aria-live="polite"></ol>
+
+      <div class="controls">
+        <button class="btn btn-secondary" id="next-clue-btn" type="button">
+          <span class="btn-mark">+</span> show me another clue
+        </button>
+      </div>
+
+      <form class="guess-form" id="guess-form" autocomplete="off" novalidate>
+        <label class="guess-label" for="guess-input">your guess</label>
+        <div class="guess-row">
+          <input
+            class="guess-input"
+            id="guess-input"
+            type="text"
+            placeholder="type the word…"
+            spellcheck="false"
+            autocapitalize="off">
+          <button class="btn btn-primary" type="submit">
+            guess <span class="btn-arrow">→</span>
+          </button>
+        </div>
+        <p class="feedback" id="feedback" aria-live="polite"></p>
+      </form>
+
+      <div class="reveal-controls">
+        <button class="btn btn-ghost" id="reveal-btn" type="button">give up — show me</button>
+        <button class="btn btn-ghost btn-next" id="next-puzzle-btn" type="button" hidden>
+          next puzzle <span class="btn-arrow">→</span>
+        </button>
+      </div>
+    </section>
+
+    <aside class="palette" aria-label="Allowed vocabulary">
+      <div class="palette-header">
+        <span class="palette-title">the 34 words</span>
+        <span class="palette-sub">lit = used in shown clues</span>
+      </div>
+
+      <div class="palette-group">
+        <span class="palette-cat">noun</span>
+        <ul class="palette-words" id="cat-noun"></ul>
+      </div>
+      <div class="palette-group">
+        <span class="palette-cat">verb</span>
+        <ul class="palette-words" id="cat-verb"></ul>
+      </div>
+      <div class="palette-group">
+        <span class="palette-cat">adjective</span>
+        <ul class="palette-words" id="cat-adj"></ul>
+      </div>
+      <div class="palette-group">
+        <span class="palette-cat">connector</span>
+        <ul class="palette-words" id="cat-conn"></ul>
+      </div>
+
+      <p class="palette-foot">describers may only use these.<br>guessers may use anything.</p>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <p>
+      a tutorial for <a href="https://persondothing.com">person do thing</a> —
+      a word-guessing game where you describe with only 34 simple words.
+    </p>
+  </footer>
+
+  <script src="app.js" defer></script>
+</body>
+</html>
