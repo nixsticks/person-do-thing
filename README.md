@@ -6,30 +6,11 @@ This site is the "jazzier" companion to the main reference page: instead of just
 
 ## Stack
 
-Static site, vanilla HTML / CSS / JS. No build step, no dependencies, no backend. Drop it on GitHub Pages and you're done.
-
 ```
 index.html    markup
 styles.css    riso/zine styling (cream paper, federal blue + fluorescent pink)
 app.js        game state, puzzles, vocabulary palette
-words.txt     reference dump of the 34 allowed words
 ```
-
-## Run locally
-
-Just open `index.html` in a browser:
-
-```
-open index.html
-```
-
-No server needed — puzzle data is inlined into `app.js`, so there are no `fetch()` calls that would break under `file://`.
-
-## Deploy to GitHub Pages
-
-1. Push this directory to a GitHub repo.
-2. In the repo settings → Pages, set the source to `main` / `/ (root)`.
-3. Done. Visit `https://<user>.github.io/<repo>/`.
 
 ## Adding a puzzle
 
@@ -74,5 +55,5 @@ Change those and the rest of the page follows.
 ## Roadmap
 
 - **Challenge mode** — let the visitor *be* the describer with a keyboard restricted to the 34 words.
-- More puzzles (currently 8).
+- More puzzles.
 - Share-a-puzzle URL params.
