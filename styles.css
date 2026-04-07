@@ -137,22 +137,34 @@ body {
   gap: 0.9rem;
 }
 
-.colophon {
+/* quiet "new here?" rules link below the buy-pin */
+.rules-link {
   font-family: var(--font-mono);
-  font-size: 0.7rem;
+  font-size: 0.68rem;
   text-transform: uppercase;
   letter-spacing: 0.18em;
-  color: var(--ink);
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.5rem 0.8rem;
-  border: 1.5px solid var(--ink);
-  background: var(--paper-2);
-  box-shadow: 3px 3px 0 0 var(--pink);
-  transform: rotate(2deg);
+  color: var(--ink-soft);
+  text-decoration: none;
+  padding: 0.35rem 0.55rem;
+  border-bottom: 1.5px dotted var(--ink-soft);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
   white-space: nowrap;
-  animation: fade-in 1s 0.6s both;
+  transition: color 0.18s ease, border-color 0.18s ease;
+  animation: fade-in 1s 0.85s both;
 }
+
+.rules-link:hover {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+}
+
+.rules-link-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.rules-link:hover .rules-link-arrow { transform: translateX(3px); }
 
 /* always-on buy-the-deck pin in the masthead */
 .buy-pin {
