@@ -130,6 +130,33 @@ body {
   animation: fade-in 1s 0.4s both;
 }
 
+.subtitle-link {
+  font-family: var(--font-mono);
+  font-style: italic;
+  font-weight: 500;
+  color: var(--pink);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--pink);
+  padding: 0 0.18em 1px;
+  margin-left: 0.4em;
+  white-space: nowrap;
+  transition: color 0.18s ease, background 0.18s ease;
+}
+
+.subtitle-link:hover {
+  background: var(--pink);
+  color: var(--paper);
+}
+
+.subtitle-link-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+
+.subtitle-link:hover .subtitle-link-arrow {
+  transform: translate(2px, -2px);
+}
+
 .masthead-meta {
   display: flex;
   flex-direction: column;
