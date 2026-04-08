@@ -2,7 +2,7 @@
 
 An interactive tutorial for [Person Do Thing](https://persondothing.com), a word-guessing game where the describer can only use **34 simple words**.
 
-This site is the "jazzier" companion to the main reference page: instead of just listing the allowed vocabulary, it plays the game *at you*. You see clues built only from the 34 words and try to guess the hidden target.
+This site is a companion to/demo for the main reference page.
 
 ## Stack
 
@@ -46,14 +46,14 @@ The whole color palette lives in four CSS variables at the top of `styles.css`:
 
 ```css
 --paper: #f3e9d2;   /* cream */
---ink:   #1c2960;   /* federal blue */
---pink:  #ff2e7e;   /* fluorescent pink */
+--ink:   #1c2960;   /* blue */
+--pink:  #ff2e7e;   /* pink */
 ```
 
 Change those and the rest of the page follows.
 
-## Roadmap
+## Further improvement
 
-- **Challenge mode** — let the visitor *be* the describer with a keyboard restricted to the 34 words.
+- **Challenge mode** — visitor acts as describer with a keyboard restricted to the 34 words.
 - More puzzles.
 - Share-a-puzzle URL params.
