@@ -572,6 +572,27 @@ const MILESTONES = {
     body: "the real deck has hundreds of cards. play it for real.",
     cta: "take it home",
   },
+  "solves-12": {
+    type: "buy",
+    eyebrow: "★ a dozen down ★",
+    headline: "twelve and counting.",
+    body: "you're past the tutorial part. this is where you find out how good your friends would be at it.",
+    cta: "get the deck",
+  },
+  "solves-20": {
+    type: "buy",
+    eyebrow: "★ twenty solved ★",
+    headline: "this is a habit now.",
+    body: "twenty puzzles in. you've out-played most visitors. the deck is what's next.",
+    cta: "bring it home",
+  },
+  "solves-30": {
+    type: "buy",
+    eyebrow: "★ thirty solved ★",
+    headline: "you've outplayed the tutorial.",
+    body: "the site has fifty. the deck has hundreds. you're ready for the real thing.",
+    cta: "play it for real",
+  },
   "email-after-dismiss": {
     type: "email",
     eyebrow: "★ another way to stay close ★",
@@ -958,6 +979,9 @@ function win() {
       queue("solves-7");
     }
   }
+  if (state.solvedCount === 12) queue("solves-12");
+  if (state.solvedCount === 20) queue("solves-20");
+  if (state.solvedCount === 30) queue("solves-30");
 
   setFeedback(pick(RIGHT_LINES), "right");
   renderMystery();
