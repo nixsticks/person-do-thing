@@ -1,4 +1,4 @@
-# Person Do Thing — play it
+# Person Do Thing
 
 An interactive tutorial for [Person Do Thing](https://persondothing.com), a word-guessing game where the describer can only use **34 simple words**.
 
