@@ -325,6 +325,206 @@ const PUZZLES = [
       "Other person no see in — but after, see.",
     ],
   },
+  {
+    answer: "clock",
+    accept: ["clock", "clocks", "a clock", "watch", "watches"],
+    clues: [
+      "Thing in place. Person see again, again.",
+      "Same do, again, again, again. No fast, no no-fast.",
+      "Person see thing, person think, 'go!' — and person go fast.",
+      "Person want more — but thing say, 'no more.' Person go.",
+    ],
+  },
+  {
+    answer: "cat",
+    accept: ["cat", "cats", "a cat", "kitten", "kitty"],
+    clues: [
+      "Thing, but no person.",
+      "Person have, person feel good. No-big thing.",
+      "Person say 'go!' Thing no go. Person say 'do!' Thing think, 'no.'",
+      "Thing do same thing thing want — and no more.",
+    ],
+  },
+  {
+    answer: "bed",
+    accept: ["bed", "beds", "a bed", "the bed"],
+    clues: [
+      "Thing in place.",
+      "Person go in after hot thing far up go no-up.",
+      "Person in thing, no go up. No see, no say, no do.",
+      "After many after, person up. No person in thing.",
+    ],
+  },
+  {
+    answer: "book",
+    accept: ["book", "books", "a book", "novel"],
+    clues: [
+      "Thing person have.",
+      "Person see, person think. More see, more think.",
+      "No real person in — but person see real person. No real place — but person see real place.",
+      "Person go far far place, but no real go. Same place, same place.",
+    ],
+  },
+  {
+    answer: "window",
+    accept: ["window", "windows", "a window", "the window"],
+    clues: [
+      "Thing in place.",
+      "Person see far, but no go.",
+      "Hot thing far up — go in. Place hot.",
+      "Other person in other place — person see, but no say.",
+    ],
+  },
+  {
+    answer: "food",
+    accept: ["food", "a meal", "meal", "snack", "eating"],
+    clues: [
+      "Thing person want.",
+      "Person use. After, person feel good.",
+      "No have? Person feel no good. Hard.",
+      "Many many other thing in same. Person have, person want more, more.",
+    ],
+  },
+  {
+    answer: "cloud",
+    accept: ["cloud", "clouds", "a cloud", "the clouds"],
+    clues: [
+      "Thing far up.",
+      "Big, no-big, big, no-big — same thing, no same.",
+      "Person see, but no have. No real hard.",
+      "After many, person no see hot thing up. After more, many same thing go no-up.",
+    ],
+  },
+  {
+    answer: "star",
+    accept: ["star", "stars", "a star", "the stars"],
+    clues: [
+      "Thing far up.",
+      "No big — but real real big. Far far far.",
+      "Person see after hot thing far up go no-up. No see before.",
+      "Many many same thing in same big place. Person see, person feel good.",
+    ],
+  },
+  {
+    answer: "phone",
+    accept: ["phone", "phones", "a phone", "telephone", "cell phone", "cellphone", "smartphone"],
+    clues: [
+      "Thing person have. No-big.",
+      "Person say in thing. Other person, far far, feel same say.",
+      "Other person no see person — but feel same.",
+      "Person see other place in same thing. Person no go, but see far place.",
+    ],
+  },
+  {
+    answer: "dream",
+    accept: ["dream", "dreams", "a dream", "dreaming"],
+    clues: [
+      "Thing person have in person.",
+      "Person see thing — but no real see.",
+      "Person do thing, go far place — but no real do, no real go.",
+      "After, person think, 'real? No real?'",
+    ],
+  },
+  {
+    answer: "smile",
+    accept: ["smile", "smiles", "smiling", "a smile", "grin"],
+    clues: [
+      "Thing person make — same place person say.",
+      "Person feel good, person make thing.",
+      "Other person see, other person feel good same.",
+      "No say — but other person see, think, 'good!'",
+    ],
+  },
+  {
+    answer: "money",
+    accept: ["money", "cash", "dollars"],
+    clues: [
+      "Thing person want.",
+      "Person use, person have other thing.",
+      "Many person hard make. Many no have.",
+      "Person have more — person have more thing. But no more good feel.",
+    ],
+  },
+  {
+    answer: "home",
+    accept: ["home", "house", "a house", "houses", "homes"],
+    clues: [
+      "Place person have.",
+      "Person go in after many do — after far go.",
+      "Person feel good in. Person no want go.",
+      "Many person no in — but same person in. Again, again.",
+    ],
+  },
+  {
+    answer: "mother",
+    accept: ["mother", "mom", "mum", "mama", "mommy", "mothers"],
+    clues: [
+      "Person.",
+      "Before person, same other person.",
+      "Make person. Have person. Feel and feel and feel.",
+      "After many many after, person big — but same other person, same feel.",
+    ],
+  },
+  {
+    answer: "love",
+    accept: ["love", "loving", "in love", "loves"],
+    clues: [
+      "Thing person feel.",
+      "Person feel — and feel more, more, more.",
+      "Person want see other person again. Person want same do other person do.",
+      "Hard say. But real, real real.",
+    ],
+  },
+  {
+    answer: "ocean",
+    accept: ["ocean", "oceans", "the ocean", "sea", "the sea", "seas"],
+    clues: [
+      "Big big place.",
+      "Person see far far — no see other place.",
+      "Many many thing in. Person no go in far.",
+      "Same place, but other place same.",
+    ],
+  },
+  {
+    answer: "flower",
+    accept: ["flower", "flowers", "a flower", "rose", "roses"],
+    clues: [
+      "Thing in place. No-big.",
+      "Up — but no big up. No go. Same place, same place.",
+      "Person see, person feel good. Many many in same place.",
+      "Person have, person make other person have. Person say no thing — thing say.",
+    ],
+  },
+  {
+    answer: "word",
+    accept: ["word", "words", "a word"],
+    clues: [
+      "Thing person say. Thing person make.",
+      "Many many in same say. Person make, other person feel same.",
+      "'Person', 'thing', 'big', 'go' — same same same same.",
+      "Person have many many in person. Person say — and other person think same.",
+    ],
+  },
+  {
+    answer: "wheel",
+    accept: ["wheel", "wheels", "a wheel", "tire", "tires"],
+    clues: [
+      "Thing person make.",
+      "Same do, same do, same do — but no same place.",
+      "Person use, other thing go fast far.",
+      "Big thing have many same. No have? No go.",
+    ],
+  },
+  {
+    answer: "boat",
+    accept: ["boat", "boats", "a boat", "ship", "ships"],
+    clues: [
+      "Thing person make.",
+      "Person in thing. Thing in big place.",
+      "Person no go in place — but go far in place. Far far.",
+      "Big thing — many person in. Go far far, no fast.",
+    ],
+  },
 ];
 
 // ---------- state ----------
