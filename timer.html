@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Timer — Person Do Thing</title>
+  <meta name="description" content="A 2-minute describer timer for playing Person Do Thing in real life. Shows a target word and counts down — using only the 34 allowed words.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="page-timer">
+  <div class="grain" aria-hidden="true"></div>
+  <div class="halftone-bg" aria-hidden="true"></div>
+
+  <header class="masthead">
+    <div class="title-stack">
+      <h1 class="title" data-text="Person Do Thing">Person Do Thing</h1>
+      <p class="subtitle">— irl describer timer.</p>
+    </div>
+    <div class="masthead-meta">
+      <a class="buy-pin"
+         href="https://want.persondothing.com/?utm_source=play_site&utm_medium=masthead&utm_campaign=timer"
+         target="_blank"
+         rel="noopener">
+        <span class="buy-pin-eyebrow">play it for real ↓</span>
+        <span class="buy-pin-cta">get the deck <span class="buy-pin-arrow">→</span></span>
+      </a>
+      <a class="rules-link" href="index.html">
+        <span class="rules-link-arrow">←</span> back to the demo
+      </a>
+    </div>
+  </header>
+
+  <main class="stage">
+    <section class="timer-stage" aria-label="Timer mode">
+      <h2 class="timer-headline">describe this in two minutes.</h2>
+
+      <div class="timer-word-row">
+        <div class="timer-word-card">
+          <span class="timer-word" id="timer-word" data-text="—">—</span>
+        </div>
+        <button class="timer-sync-btn" id="timer-next-word" type="button" aria-label="another word">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M3 12a9 9 0 0 1 15-6.7L21 8"/>
+            <path d="M21 3v5h-5"/>
+            <path d="M21 12a9 9 0 0 1-15 6.7L3 16"/>
+            <path d="M3 21v-5h5"/>
+          </svg>
+        </button>
+      </div>
+
+      <div class="timer-clock" id="timer-clock" data-state="ready">2:00</div>
+
+      <div class="timer-controls">
+        <button class="btn btn-primary" id="timer-start" type="button">start the clock</button>
+        <button class="btn btn-ghost" id="timer-reset" type="button" disabled>reset</button>
+      </div>
+    </section>
+
+    <aside class="palette" aria-label="Allowed vocabulary">
+      <div class="palette-header">
+        <span class="palette-title">the 34 words</span>
+      </div>
+
+      <div class="palette-group">
+        <span class="palette-cat">noun</span>
+        <ul class="palette-words" id="cat-noun"></ul>
+      </div>
+      <div class="palette-group">
+        <span class="palette-cat">verb</span>
+        <ul class="palette-words" id="cat-verb"></ul>
+      </div>
+      <div class="palette-group">
+        <span class="palette-cat">adjective</span>
+        <ul class="palette-words" id="cat-adj"></ul>
+      </div>
+      <div class="palette-group">
+        <span class="palette-cat">connector</span>
+        <ul class="palette-words" id="cat-conn"></ul>
+      </div>
+    </aside>
+  </main>
+
+  <footer class="footer">
+    <p>
+      a tutorial for <a href="https://persondothing.com">person do thing</a>.
+    </p>
+  </footer>
+
+  <script src="timer.js" defer></script>
+</body>
+</html>

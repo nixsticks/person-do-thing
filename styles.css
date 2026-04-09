@@ -290,7 +290,7 @@ body {
   display: grid;
   grid-template-columns: minmax(0, 1.6fr) minmax(0, 0.95fr);
   gap: clamp(2rem, 4vw, 4rem);
-  padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
+  padding: clamp(1.6rem, 4vw, 3.2rem) clamp(1.5rem, 5vw, 4rem) clamp(3rem, 6vw, 5rem);
   align-items: start;
 }
 
@@ -919,6 +919,230 @@ body {
   color: var(--paper);
 }
 
+/* ---------- timer stage (irl describer mode) ---------- */
+
+.timer-stage {
+  position: relative;
+  animation: fade-in 0.55s ease both;
+}
+
+.timer-headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 50, "opsz" 144;
+  font-size: clamp(1.9rem, 4vw, 2.9rem);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: 1.4rem 0 1.6rem;
+  text-transform: lowercase;
+  position: relative;
+  display: inline-block;
+}
+
+.timer-headline::before {
+  content: "";
+  position: absolute;
+  left: -4px;
+  right: -4px;
+  bottom: 0.06em;
+  height: 0.32em;
+  background: var(--pink);
+  z-index: -1;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  transform: rotate(-0.6deg);
+}
+
+/* outer wrapper: holds the card on the left and the sync button
+   on the right as siblings. the card stays a clean centered surface
+   (matching the demo's mystery card pattern) and the sync icon lives
+   alongside it instead of inside it. */
+.timer-word-row {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  margin: 0 0 2rem;
+}
+
+.timer-word-card {
+  flex: 1 1 auto;
+  min-width: 0;
+  position: relative;
+  padding: 1.4rem 1.6rem 1.5rem;
+  background:
+    radial-gradient(circle at center, var(--pink-soft) 0.9px, transparent 1.4px) 0 0 / 11px 11px,
+    var(--paper-2);
+  border: 3px solid var(--ink);
+  box-shadow:
+    7px 7px 0 0 var(--pink),
+    7px 7px 0 3px var(--ink);
+  transform: rotate(-0.6deg);
+  text-align: center;
+}
+
+.timer-word-card::before,
+.timer-word-card::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--pink);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+.timer-word-card::before { top: -8px; left: -8px; }
+.timer-word-card::after  { bottom: -8px; right: -8px; }
+
+.timer-word {
+  display: inline-block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 100, "opsz" 144;
+  font-size: clamp(2.6rem, 7vw, 4.6rem);
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  color: var(--ink);
+  text-transform: lowercase;
+  position: relative;
+  word-break: break-word;
+}
+
+.timer-word::before {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  color: var(--pink);
+  z-index: -1;
+  transform: translate(4px, 4px);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+.timer-sync-btn {
+  flex: 0 0 auto;
+  width: 2.8rem;
+  height: 2.8rem;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-shadow: 3px 3px 0 0 var(--ink);
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    background 0.18s ease,
+    color 0.18s ease;
+}
+
+.timer-sync-btn svg {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+.timer-sync-btn:hover {
+  background: var(--pink);
+  color: var(--paper);
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 0 var(--ink);
+}
+
+/* spin on hover (desktop) and on the .spinning class (any device,
+   added by JS on click so taps get visible feedback on touch). */
+.timer-sync-btn:hover svg,
+.timer-sync-btn svg.spinning {
+  animation: sync-spin 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.timer-sync-btn:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 0 var(--ink);
+}
+
+.timer-sync-btn:focus-visible {
+  outline: 3px dashed var(--pink);
+  outline-offset: 4px;
+}
+
+@keyframes sync-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.timer-clock {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 80, "opsz" 144;
+  font-size: clamp(4.2rem, 11vw, 7.2rem);
+  line-height: 0.85;
+  letter-spacing: -0.045em;
+  color: var(--ink);
+  text-align: center;
+  padding: 1.6rem 1rem 1.8rem;
+  border: 3px solid var(--ink);
+  background:
+    radial-gradient(circle at center, var(--pink-soft) 1px, transparent 1.6px) 0 0 / 14px 14px,
+    var(--paper-2);
+  box-shadow: 8px 8px 0 0 var(--ink);
+  margin: 0 0 1.6rem;
+  transform: rotate(0.4deg);
+  font-feature-settings: "tnum";
+  position: relative;
+  transition: box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.timer-clock[data-state="running"] {
+  background:
+    radial-gradient(circle at center, var(--pink) 1.1px, transparent 1.6px) 0 0 / 14px 14px,
+    var(--paper-2);
+  box-shadow:
+    8px 8px 0 0 var(--pink),
+    8px 8px 0 3px var(--ink);
+}
+
+.timer-clock[data-state="done"] {
+  color: var(--pink);
+  background:
+    radial-gradient(circle at center, var(--pink) 1.2px, transparent 1.7px) 0 0 / 12px 12px,
+    var(--paper);
+  animation: timer-flash 0.55s ease-in-out infinite alternate;
+}
+
+@keyframes timer-flash {
+  from { box-shadow: 8px 8px 0 0 var(--ink); transform: rotate(0.4deg); }
+  to   { box-shadow: 10px 10px 0 0 var(--pink), 10px 10px 0 3px var(--ink); transform: rotate(-0.2deg); }
+}
+
+.timer-controls {
+  display: flex;
+  gap: 0.9rem;
+  margin: 0 0 1.4rem;
+  flex-wrap: wrap;
+}
+
+.timer-controls .btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.timer-foot {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink-soft);
+  text-transform: lowercase;
+  margin: 1.2rem 0 0;
+  padding-top: 0.9rem;
+  border-top: 2px dotted var(--ink);
+}
+
 /* ---------- vocabulary palette ---------- */
 
 .palette {
@@ -1315,6 +1539,195 @@ body {
 .footer a:hover {
   background: var(--pink);
   color: var(--paper);
+}
+
+/* ============================================================
+   TIMER MODE OVERRIDES
+   In timer mode the palette is the main content (the describer
+   needs to glance at it constantly), and the timer chrome is a
+   tool. So we shrink everything timer-related, drop the stage to
+   a single centered column, and make the 34 words big and clear.
+   These overrides only apply when body has data-mode="timer".
+   ============================================================ */
+
+/* timer-mode stage: mobile stays single-column (via the existing
+   @media max-width 880px rule that already collapses .stage to 1fr).
+   on desktop we inherit the demo's grid (1.6fr 0.95fr) so the timer
+   word card matches the demo's mystery card width — same column,
+   same outer width, sibling layouts. */
+body.page-timer .stage {
+  padding-top: clamp(0.8rem, 2vw, 1.4rem);
+  padding-bottom: clamp(2rem, 4vw, 3rem);
+  gap: clamp(1rem, 2.5vw, 1.6rem);
+}
+
+/* compact timer-stage chrome — headline carries the section header role */
+body.page-timer .timer-headline {
+  display: block;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  margin: 0 0 1rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 2px dotted var(--ink);
+}
+
+body.page-timer .timer-word-row {
+  margin: 0 0 1rem;
+}
+
+body.page-timer .timer-word-card {
+  padding: 1.1rem 1.3rem 1.2rem;
+  box-shadow:
+    5px 5px 0 0 var(--pink),
+    5px 5px 0 3px var(--ink);
+}
+
+/* target word: bigger + looser tracking + no offset shadow.
+   the per-letter pink shadow muddies legibility at small phone sizes,
+   and the standard letter-spacing on italic Fraunces bunches at <3rem.
+   higher line-height gives words like "butterfly" room to breathe. */
+body.page-timer .timer-word {
+  font-size: clamp(2.8rem, 10vw, 3.8rem);
+  letter-spacing: -0.015em;
+  line-height: 1;
+  font-variation-settings: "SOFT" 60, "opsz" 96;
+}
+
+body.page-timer .timer-word::before {
+  display: none;
+}
+
+body.page-timer .timer-clock {
+  font-size: clamp(3.2rem, 11vw, 4.6rem);
+  padding: 0.95rem 1rem 1.05rem;
+  margin: 0 0 0.9rem;
+  box-shadow: 5px 5px 0 0 var(--ink);
+}
+
+body.page-timer .timer-clock[data-state="running"] {
+  box-shadow:
+    5px 5px 0 0 var(--pink),
+    5px 5px 0 3px var(--ink);
+}
+
+body.page-timer .timer-controls {
+  margin: 0 0 0.4rem;
+}
+
+/* hide the timer foot — palette is right below in the single-column layout,
+   so the "they're right there" hint is now self-evident */
+body.page-timer .timer-foot {
+  display: none;
+}
+
+/* prominent palette: no rotation, more padding, this is the main content now */
+body.page-timer .palette {
+  position: static;
+  transform: none;
+  padding: 1.5rem 1.4rem 1.7rem;
+  box-shadow: 6px 6px 0 0 var(--ink);
+}
+
+body.page-timer .palette-title {
+  font-size: 1.7rem;
+}
+
+/* "lit = used in shown clues" doesn't apply when there are no clues */
+body.page-timer .palette-sub {
+  display: none;
+}
+
+/* "describers may only use these" is implicit in timer mode — the user is the describer */
+body.page-timer .palette-foot {
+  display: none;
+}
+
+body.page-timer .palette-cat {
+  font-size: 0.7rem;
+  margin-bottom: 0.55rem;
+}
+
+body.page-timer .palette-words {
+  gap: 0.55rem 0.55rem;
+}
+
+/* bigger, clearer words — and clear the .lit highlight from guess mode
+   (CSS-only suppression: the .lit class stays on the element, we just
+   don't render the highlight visuals while in timer mode. switching back
+   to guess mode automatically restores the highlights.) */
+body.page-timer .word,
+body.page-timer .word.lit,
+body.page-timer .word.lit:nth-child(even) {
+  font-size: 1rem;
+  padding: 0.5rem 0.75rem;
+  font-weight: 500;
+  background: var(--paper);
+  color: var(--ink);
+  border: 1.5px solid var(--ink);
+  box-shadow: none;
+  transform: none;
+}
+
+/* ============================================================
+   MOBILE TIGHTENING
+   General improvements for small screens that apply to both
+   modes — tighter padding, smaller masthead chrome, no wasted
+   real estate. The site already uses clamp() for fluid sizing;
+   these are the spots where the desktop-first defaults felt too
+   chunky on a phone.
+   ============================================================ */
+
+@media (max-width: 640px) {
+  .masthead {
+    padding: 1.2rem 1.2rem 0;
+    gap: 1rem;
+  }
+
+  .masthead-meta {
+    gap: 0.7rem 0.9rem;
+  }
+
+  .buy-pin {
+    padding: 0.75rem 1.05rem 0.85rem;
+    max-width: none;
+  }
+  .buy-pin-eyebrow { font-size: 0.62rem; }
+  .buy-pin-cta    { font-size: 1.3rem; }
+
+  .rules-link {
+    font-size: 0.62rem;
+    padding: 0.3rem 0.45rem;
+  }
+
+  .tabs {
+    padding: 0 1.2rem;
+    margin-top: 1.1rem;
+    gap: 0.7rem;
+  }
+
+  .tab {
+    font-size: 1rem;
+    padding: 0.7rem 1rem 0.8rem;
+    flex: 1 1 auto;
+  }
+
+  .stage {
+    padding: 1.4rem 1.2rem 2.4rem;
+    gap: 1.6rem;
+  }
+
+  .footer {
+    padding: 1.5rem 1.2rem 2rem;
+    margin: 0 1.2rem;
+  }
+
+  /* timer mode on small screens: even tighter chrome */
+  body.page-timer .stage {
+    padding: 1rem 1.1rem 2.2rem;
+  }
+  body.page-timer .timer-headline {
+    margin: 0 0 0.8rem;
+    padding-bottom: 0.6rem;
+  }
 }
 
 /* ---------- reduced motion ---------- */
