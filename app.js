@@ -548,7 +548,10 @@ const STORAGE_KEY_SIGNED_UP = "pdt_email_signed_up";
 
 // ---------- sales funnel: cross-sell milestones ----------
 
-const BUY_URL = "https://want.persondothing.com/";
+// in-app buy page (same site, no offsite jump). milestone cross-sells
+// route here so visitors stay in our funnel; the /buy page handles the
+// final hand-off to amazon.
+const BUY_URL = "buy.html";
 
 const MILESTONES = {
   "first-clue": {
@@ -603,12 +606,9 @@ const MILESTONES = {
 };
 
 function buyUrl(campaign) {
-  const params = new URLSearchParams({
-    utm_source: "play_site",
-    utm_medium: campaign ? "milestone" : "masthead",
-  });
-  if (campaign) params.set("utm_campaign", campaign);
-  return `${BUY_URL}?${params.toString()}`;
+  // milestones can still pass a campaign tag — preserved as a hash
+  // fragment so /buy can read it later for analytics if we ever add it.
+  return campaign ? `${BUY_URL}#${campaign}` : BUY_URL;
 }
 
 // ---------- element refs ----------
@@ -831,11 +831,9 @@ function renderCrossSell(key) {
   // body diverges by type: buy → CTA link, email → inline signup form
   let body = "";
   if (m.type === "buy") {
+    // same-site link now (/buy), no target="_blank"
     body = `
-      <a class="cross-sell-cta"
-         href="${buyUrl(key)}"
-         target="_blank"
-         rel="noopener">
+      <a class="cross-sell-cta" href="${buyUrl(key)}">
         ${m.cta} <span class="cross-sell-arrow">→</span>
       </a>
     `;

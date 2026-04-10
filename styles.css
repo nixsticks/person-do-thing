@@ -1730,6 +1730,749 @@ body.page-timer .word.lit:nth-child(even) {
   }
 }
 
+/* ============================================================
+   BUY PAGE (/buy)
+   Sales surface for the deck. Built mobile-first: single column
+   throughout, with the secondary CTAs (.buy-also) becoming a
+   3-col grid on desktop. Hero CTA is the largest, loudest button
+   on the page; everything else supports it.
+   ============================================================ */
+
+.buy-stage {
+  position: relative;
+  z-index: 2;
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: clamp(1.4rem, 4vw, 2.6rem) clamp(1.2rem, 5vw, 2.4rem) clamp(3rem, 6vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2.4rem, 5vw, 4rem);
+}
+
+/* shared eyebrow used to label sections */
+.buy-section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--pink);
+  font-weight: 500;
+  margin: 0 0 1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 2px dotted var(--ink);
+}
+
+/* ---------- hero ---------- */
+
+.buy-hero {
+  position: relative;
+  padding: clamp(1.6rem, 4vw, 2.4rem) clamp(1.4rem, 4vw, 2rem) clamp(1.8rem, 4vw, 2.4rem);
+  background: var(--paper-2);
+  border: 3px solid var(--ink);
+  box-shadow:
+    8px 8px 0 0 var(--pink),
+    8px 8px 0 3px var(--ink);
+  transform: rotate(-0.5deg);
+  text-align: center;
+  animation: fade-in 0.8s 0.2s both;
+}
+
+.buy-hero::before,
+.buy-hero::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  background: var(--pink);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+.buy-hero::before { top: -8px; left: -8px; }
+.buy-hero::after  { bottom: -8px; right: -8px; }
+
+.buy-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--pink);
+  font-weight: 500;
+  margin: 0 0 0.9rem;
+}
+
+.buy-headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 50, "opsz" 144;
+  font-size: clamp(1.9rem, 6vw, 3.2rem);
+  line-height: 0.95;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: 0 0 1.1rem;
+  text-transform: lowercase;
+}
+
+.buy-body {
+  font-family: var(--font-mono);
+  font-size: clamp(0.92rem, 1.6vw, 1.05rem);
+  line-height: 1.55;
+  color: var(--ink);
+  margin: 0 auto 1.6rem;
+  max-width: 32rem;
+}
+
+.buy-cta {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 1rem 1.6rem 1.1rem;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 50, "opsz" 144;
+  font-size: clamp(1.4rem, 3.6vw, 1.95rem);
+  text-transform: lowercase;
+  letter-spacing: -0.015em;
+  background: var(--ink);
+  color: var(--paper);
+  border: 3px solid var(--ink);
+  box-shadow: 6px 6px 0 0 var(--pink);
+  text-decoration: none;
+  line-height: 1;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.buy-cta:hover {
+  transform: translate(-3px, -3px);
+  background: var(--pink);
+  color: var(--paper);
+  box-shadow: 9px 9px 0 0 var(--ink);
+}
+
+.buy-cta:active {
+  transform: translate(2px, 2px);
+  box-shadow: 3px 3px 0 0 var(--pink);
+}
+
+.buy-cta:focus-visible {
+  outline: 3px dashed var(--pink);
+  outline-offset: 4px;
+}
+
+.buy-cta-arrow {
+  display: inline-block;
+  font-size: 0.85em;
+  transition: transform 0.2s ease;
+}
+.buy-cta:hover .buy-cta-arrow { transform: translateX(4px); }
+
+.buy-cta-foot {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-soft);
+  margin: 1.1rem 0 0;
+  line-height: 1.5;
+}
+.buy-cta-foot strong {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ---------- example ---------- */
+
+.buy-example {
+  position: relative;
+}
+
+.buy-example-card {
+  position: relative;
+  margin: 0 0 0.9rem;
+  padding: 1.4rem 1.4rem 1.5rem;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  transform: rotate(0.4deg);
+}
+
+.buy-example-clue {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 700;
+  font-variation-settings: "SOFT" 60, "opsz" 96;
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+  line-height: 1.4;
+  color: var(--ink);
+  margin: 0 0 0.9rem;
+  text-transform: lowercase;
+  letter-spacing: -0.005em;
+}
+
+.buy-example-answer {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 80, "opsz" 144;
+  font-size: clamp(1.6rem, 4vw, 2.2rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--pink);
+  text-transform: lowercase;
+  margin: 0;
+  text-align: right;
+}
+
+.buy-example-caption {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  margin: 0;
+  text-align: center;
+  text-transform: lowercase;
+}
+
+/* ---------- what's in the box ---------- */
+
+.buy-box-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.7rem;
+}
+
+.buy-box-item {
+  display: flex;
+  align-items: baseline;
+  gap: 0.9rem;
+  padding: 0.9rem 1.1rem;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 4px 4px 0 0 var(--ink);
+}
+
+.buy-box-item:nth-child(odd)  { transform: rotate(-0.3deg); }
+.buy-box-item:nth-child(even) { transform: rotate(0.3deg); }
+
+.buy-box-num {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 80, "opsz" 144;
+  font-size: clamp(1.8rem, 4vw, 2.4rem);
+  line-height: 1;
+  color: var(--pink);
+  letter-spacing: -0.02em;
+  flex: 0 0 auto;
+  min-width: 2.6rem;
+}
+
+.buy-box-label {
+  font-family: var(--font-mono);
+  font-size: clamp(0.92rem, 1.6vw, 1.02rem);
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+/* ---------- youtube video embed ---------- */
+
+.buy-video-frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  width: 100%;
+  background: var(--ink);
+  border: 3px solid var(--ink);
+  box-shadow: 7px 7px 0 0 var(--pink), 7px 7px 0 3px var(--ink);
+  overflow: hidden;
+}
+
+.buy-video-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+}
+
+/* ---------- testimonial carousel ---------- */
+
+.buy-carousel {
+  position: relative;
+  display: grid;
+  grid-template-areas: "stack";
+}
+
+.buy-quote-slide {
+  grid-area: stack;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.55s ease;
+}
+
+.buy-quote-slide.is-active {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.buy-quote-text {
+  position: relative;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 600;
+  font-variation-settings: "SOFT" 60, "opsz" 96;
+  font-size: clamp(1.05rem, 2.4vw, 1.35rem);
+  line-height: 1.45;
+  color: var(--ink);
+  margin: 0;
+  padding: 0.9rem 0.4rem 0.2rem;
+  letter-spacing: -0.005em;
+}
+
+.buy-quote-text::before {
+  content: "\201C";
+  display: inline-block;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-size: 2.6rem;
+  color: var(--pink);
+  line-height: 0.4;
+  margin-right: 0.15em;
+  vertical-align: -0.15em;
+}
+
+.buy-quote-attr {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.45;
+  text-align: right;
+  padding-right: 0.4rem;
+}
+
+.buy-quote-attr strong {
+  font-weight: 500;
+}
+
+.buy-quote-credit {
+  display: inline-block;
+  font-size: 0.66rem;
+  color: var(--ink-soft);
+  text-transform: lowercase;
+  margin-top: 0.15rem;
+}
+
+.buy-quote-credit a {
+  color: var(--ink-soft);
+  text-decoration: none;
+  border-bottom: 1px dotted var(--ink-soft);
+}
+.buy-quote-credit a:hover {
+  color: var(--pink);
+  border-bottom-color: var(--pink);
+}
+
+.buy-carousel-dots {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-top: 1.1rem;
+}
+
+.buy-quote-dot {
+  width: 0.95rem;
+  height: 0.95rem;
+  border-radius: 50%;
+  background: var(--paper);
+  border: 2px solid var(--ink);
+  cursor: pointer;
+  padding: 0;
+  box-shadow: 2px 2px 0 0 var(--ink);
+  transition: background 0.18s ease, transform 0.18s ease;
+}
+
+.buy-quote-dot:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 3px 3px 0 0 var(--ink);
+  background: var(--pink-soft);
+}
+
+.buy-quote-dot[aria-current="true"] {
+  background: var(--pink);
+}
+
+.buy-quote-dot:focus-visible {
+  outline: 2px dashed var(--pink);
+  outline-offset: 3px;
+}
+
+/* ---------- secondary CTAs (bundle / international / retailers) ---------- */
+
+.buy-also-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+}
+
+.buy-also-card {
+  position: relative;
+  padding: 1.2rem 1.3rem 1.4rem;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  display: flex;
+  flex-direction: column;
+}
+
+.buy-also-card:nth-child(1) { transform: rotate(-0.5deg); }
+.buy-also-card:nth-child(2) { transform: rotate(0.4deg); }
+.buy-also-card:nth-child(3) { transform: rotate(-0.3deg); }
+
+.buy-also-tag {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--pink);
+  font-weight: 500;
+  margin: 0 0 0.55rem;
+}
+
+.buy-also-headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 60, "opsz" 144;
+  font-size: 1.25rem;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0 0 0.7rem;
+  text-transform: lowercase;
+}
+
+.buy-also-body {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0 0 1rem;
+  flex: 1 1 auto;
+}
+
+.buy-also-inline {
+  color: var(--pink);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--pink);
+}
+.buy-also-inline:hover {
+  background: var(--pink);
+  color: var(--paper);
+}
+
+.buy-also-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 0.95rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  background: var(--ink);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 0 var(--pink);
+  text-decoration: none;
+  align-self: flex-start;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.buy-also-link:hover {
+  transform: translate(-2px, -2px);
+  background: var(--pink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+}
+
+.buy-also-link:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 0 var(--pink);
+}
+
+.buy-also-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.buy-also-link:hover .buy-also-arrow { transform: translateX(3px); }
+
+/* small "for retailers" link below the secondary CTA grid */
+.buy-also-foot {
+  font-family: var(--font-mono);
+  font-size: 0.82rem;
+  color: var(--ink-soft);
+  text-align: center;
+  margin: 1.4rem 0 0;
+  padding-top: 1.1rem;
+  border-top: 2px dotted var(--ink);
+}
+
+.buy-also-foot-link {
+  color: var(--pink);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1.5px solid var(--pink);
+  margin-left: 0.3em;
+}
+.buy-also-foot-link:hover {
+  background: var(--pink);
+  color: var(--paper);
+}
+
+/* ---------- final CTA repeat ---------- */
+
+.buy-final {
+  text-align: center;
+  padding: 1rem 0 0;
+}
+
+.buy-cta-final {
+  /* inherits .buy-cta but slightly smaller — secondary CTA at the foot */
+  font-size: clamp(1.2rem, 3vw, 1.65rem);
+  padding: 0.9rem 1.4rem 1rem;
+}
+
+/* ---------- desktop layout ---------- */
+
+@media (min-width: 720px) {
+  .buy-also-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.3rem;
+  }
+
+  .buy-box-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.9rem;
+  }
+
+}
+
+@media (min-width: 880px) {
+  .buy-stage {
+    max-width: 52rem;
+  }
+}
+
+/* ============================================================
+   RETAILERS PAGE (/retailers)
+   Wholesale info + MAPP. Single column always — this page is
+   text-heavy and short, no need for grid layouts.
+   ============================================================ */
+
+.retailers-stage {
+  position: relative;
+  z-index: 2;
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: clamp(1.4rem, 4vw, 2.6rem) clamp(1.2rem, 5vw, 2.4rem) clamp(3rem, 6vw, 5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 3.2rem);
+}
+
+.retailers-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  color: var(--pink);
+  font-weight: 500;
+  margin: 0 0 0.7rem;
+}
+
+.retailers-headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 50, "opsz" 144;
+  font-size: clamp(1.7rem, 5vw, 2.4rem);
+  line-height: 0.98;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin: 0 0 1.1rem;
+  text-transform: lowercase;
+}
+
+.retailers-body {
+  font-family: var(--font-mono);
+  font-size: clamp(0.92rem, 1.6vw, 1.02rem);
+  line-height: 1.6;
+  color: var(--ink);
+  margin: 0;
+}
+
+.retailers-body strong {
+  font-weight: 500;
+  color: var(--pink);
+}
+
+.retailers-actions {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.1rem;
+}
+
+.retailers-card {
+  position: relative;
+  padding: 1.2rem 1.3rem 1.4rem;
+  background: var(--paper-2);
+  border: 2.5px solid var(--ink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  display: flex;
+  flex-direction: column;
+}
+
+.retailers-card:nth-child(1) { transform: rotate(-0.5deg); }
+.retailers-card:nth-child(2) { transform: rotate(0.4deg); }
+
+.retailers-card-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: var(--pink);
+  font-weight: 500;
+  margin: 0 0 0.55rem;
+}
+
+.retailers-card-headline {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 900;
+  font-variation-settings: "SOFT" 60, "opsz" 144;
+  font-size: 1.25rem;
+  line-height: 1.05;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+  margin: 0 0 0.7rem;
+  text-transform: lowercase;
+}
+
+.retailers-card-body {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: var(--ink);
+  margin: 0 0 1rem;
+  flex: 1 1 auto;
+}
+
+.retailers-inline {
+  color: var(--pink);
+  text-decoration: none;
+  border-bottom: 1.5px solid var(--pink);
+}
+.retailers-inline:hover {
+  background: var(--pink);
+  color: var(--paper);
+}
+
+.retailers-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.6rem 0.95rem;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  letter-spacing: 0.02em;
+  background: var(--ink);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  box-shadow: 3px 3px 0 0 var(--pink);
+  text-decoration: none;
+  align-self: flex-start;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.retailers-link:hover {
+  transform: translate(-2px, -2px);
+  background: var(--pink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+}
+
+.retailers-link:active {
+  transform: translate(1px, 1px);
+  box-shadow: 1px 1px 0 0 var(--pink);
+}
+
+.retailers-arrow {
+  display: inline-block;
+  transition: transform 0.2s ease;
+}
+.retailers-link:hover .retailers-arrow { transform: translateX(3px); }
+
+/* MAPP policy block — long-form text, comfortable line length */
+.retailers-mapp {
+  position: relative;
+}
+
+.retailers-mapp-body {
+  margin-top: 1rem;
+  padding: 1.4rem 1.4rem 1.5rem;
+  background: var(--paper);
+  border: 2.5px solid var(--ink);
+  box-shadow: 5px 5px 0 0 var(--ink);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  line-height: 1.65;
+  color: var(--ink);
+}
+
+.retailers-mapp-body p {
+  margin: 0 0 0.8rem;
+}
+
+.retailers-mapp-body p:last-child {
+  margin-bottom: 0;
+}
+
+.retailers-mapp-body strong {
+  font-weight: 500;
+  color: var(--pink);
+}
+
+/* tail link back to single-deck purchase */
+.retailers-other {
+  text-align: center;
+  padding: 0.6rem 0 0;
+}
+
+.retailers-other-text {
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  color: var(--ink-soft);
+  margin: 0;
+}
+
+.retailers-other-text a {
+  color: var(--pink);
+  text-decoration: none;
+  font-weight: 500;
+  border-bottom: 1.5px solid var(--pink);
+  margin-left: 0.3em;
+}
+.retailers-other-text a:hover {
+  background: var(--pink);
+  color: var(--paper);
+}
+
 /* ---------- reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
